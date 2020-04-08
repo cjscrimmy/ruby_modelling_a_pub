@@ -8,9 +8,9 @@ require_relative('../customer')
 
 class TestPub < Minitest::Test
     def setup()
-        @customer = Customer.new("Dougal", 100)
-        @drink1 = Drink.new("Red Hat", 5)
-        @drink2 = Drink.new("Cats Tail", 3)
+        @customer = Customer.new("Dougal", 100, 40)
+        @drink1 = Drink.new("Red Hat", 5, 8)
+        @drink2 = Drink.new("Cats Tail", 3, 3)
         @drinks = [@drink1, @drink2]
         @pub = Pub.new("Bjorks House", 150, @drinks)
     end
@@ -31,5 +31,7 @@ class TestPub < Minitest::Test
         @pub.sell_drink(@drink1, @customer)
         assert_equal(1, @drinks.count)
         assert_equal(95, @customer.wallet)
+        assert_equal(155, @pub.till)
     end
+
 end
