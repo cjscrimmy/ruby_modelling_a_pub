@@ -11,4 +11,5 @@ class Customer
         @wallet -= drink_price
     end
 
+
 end
