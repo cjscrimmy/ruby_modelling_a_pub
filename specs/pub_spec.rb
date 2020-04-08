@@ -34,4 +34,14 @@ class TestPub < Minitest::Test
         assert_equal(155, @pub.till)
     end
 
+    def test_check_underage__true()
+        underage_customer = Customer.new("Dougal", 100, 16)
+        assert_equal(true, @pub.is_underage?(underage_customer.age))
+    end
+
+    def test_check_underage__false()
+        customer_of_age = Customer.new("Dougal", 100, 18)
+        assert_equal(false, @pub.is_underage?(customer_of_age.age))
+    end
+
 end

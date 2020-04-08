@@ -12,4 +12,13 @@ class Pub
         customer.pay_for_drink(drink_to_sell.price)
         @till += drink_to_sell.price
     end
+
+    def is_underage?(customer_age)
+        if customer_age < 18
+            return true
+        else
+            return false
+        end
+    end
+
 end
