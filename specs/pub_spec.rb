@@ -27,13 +27,6 @@ class TestPub < Minitest::Test
         assert_equal(2, @pub.drinks.count())
     end
 
-    def test_sell_drink
-        @pub.sell_drink(@drink1, @customer)
-        assert_equal(1, @drinks.count)
-        assert_equal(95, @customer.wallet)
-        assert_equal(155, @pub.till)
-    end
-
     def test_check_underage__true()
         underage_customer = Customer.new("Dougal", 100, 16)
         assert_equal(true, @pub.is_underage?(underage_customer.age))
@@ -44,4 +37,34 @@ class TestPub < Minitest::Test
         assert_equal(false, @pub.is_underage?(customer_of_age.age))
     end
 
+    def test_refuse_service__customer_drunk
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        assert_equal(true, @pub.refuse_service(@customer.drunkeness_level))
+    end
+
+    def test_refuse_service__customer_not_drunk
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        assert_equal(false, @pub.refuse_service(@customer.drunkeness_level))
+    end
+
+    def test_refuse_to_sell_drink_if_customer_is_drunk()
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        @customer.increase_drunkeness(@drink1.alcohol_level)
+        assert_equal(true, @pub.sell_drink(@drink1, @customer))
+    end
+
+    def test_sell_drink_when_not_drunk
+        @pub.sell_drink(@drink1, @customer)
+        assert_equal(1, @drinks.count)
+        assert_equal(95, @customer.wallet)
+        assert_equal(155, @pub.till)
+        assert_equal(8, @customer.drunkeness_level)
+    end
 end
