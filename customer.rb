@@ -6,4 +6,9 @@ class Customer
         @name = name
         @wallet = wallet
     end
+
+    def pay_for_drink(drink_price)
+        @wallet -= drink_price
+    end
+
 end
